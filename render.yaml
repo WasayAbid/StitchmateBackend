@@ -1,0 +1,29 @@
+# Render Blueprint — StitchMate Backend
+# Dashboard: New → Blueprint → connect repo with this file at repo root,
+# OR create Web Service manually with settings below.
+
+services:
+  - type: web
+    name: stitchmate-backend
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: FRONTEND_URL
+        value: https://stitch-mate-ten.vercel.app
+      - key: GOOGLE_REDIRECT_URL
+        value: https://stitch-mate-ten.vercel.app/auth/callback
+      - key: CORS_ORIGINS
+        value: https://stitch-mate-ten.vercel.app,http://localhost:8080,http://localhost:5173
+      - key: DATABASE_URL
+        value: sqlite:///./data/fabric.db
+      - key: UPLOAD_DIR
+        value: uploads
+      # Set these in Render Dashboard → Environment (secrets):
+      # SUPABASE_URL, SUPABASE_SERVICE_KEY, GEMINI_API_KEY, GROQ_API_KEY,
+      # STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, PUBLIC_BASE_URL (your Render URL)
