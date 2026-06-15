@@ -1,0 +1,1 @@
+# StitchMate fabric upload API
